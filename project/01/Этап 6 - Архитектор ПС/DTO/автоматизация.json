@@ -1,0 +1,16 @@
+// AutomationRuleCreateRequest
+{
+  "boardId": "b_10",
+  "name": "Если перетащили в Готово — назначить тег done",
+  "when": { "event": "CARD_MOVED", "toColumnId": "c_done" },
+  "then": { "action": "ADD_TAG", "tag": "done" },
+  "enabled": true
+}
+
+// AutomationRuleResponse
+{
+  "id": "r_5",
+  "boardId": "b_10",
+  "name": "…",
+  "enabled": true
+}

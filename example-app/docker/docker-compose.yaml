@@ -1,0 +1,13 @@
+services:
+  nginx:
+    build:
+      context: ./nginx
+    container_name: polytech-example
+    hostname: nginx
+    ports:
+      - 8080:80
+      - 8443:443
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+    volumes:
+      - ../main/server/www:/usr/share/nginx/html

@@ -1,0 +1,79 @@
+@startuml
+title Conceptual Domain Model
+
+skinparam classAttributeIconSize 0
+
+' ===== Пользователи =====
+
+class User {
+  userId : Integer
+  nickname : String
+  email : String
+  registrationDate : Date
+  avatarUrl : String
+}
+
+class Player
+class Developer
+class Moderator
+
+User <|-- Player
+User <|-- Developer
+User <|-- Moderator
+
+' ===== Игры и жанры =====
+
+class Game {
+  gameId : Integer
+  title : String
+  description : String
+  releaseDate : Date
+  coverImageUrl : String
+}
+
+class Genre {
+  genreId : Integer
+  name : String
+}
+
+Game "*" -- "*" Genre : belongs to >
+
+' ===== Пользовательские предпочтения =====
+
+class UserPreferences {
+  preferencesId : Integer
+}
+
+Player "1" *-- "1" UserPreferences : owns >
+UserPreferences "*" -- "*" Genre : favorite genres >
+
+' ===== Оценки и отзывы =====
+
+class Rating {
+  ratingId : Integer
+  value : Integer
+}
+
+class Review {
+  reviewId : Integer
+  text : String
+}
+
+Player "1" -- "*" Rating : gives >
+Game "1" -- "*" Rating : receives >
+
+Player "1" -- "*" Review : writes >
+Game "1" -- "*" Review : has >
+
+Rating "1" o-- "0..1" Review : may include >
+
+' ===== Избранные игры =====
+
+Player "*" -- "*" Game : plays >
+
+' ===== Публикация и модерация =====
+
+Developer "1" -- "*" Game : publishes >
+Moderator "1" -- "*" Game : moderates >
+
+@enduml

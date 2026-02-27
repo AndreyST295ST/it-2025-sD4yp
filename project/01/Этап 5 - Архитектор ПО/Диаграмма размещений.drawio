@@ -1,0 +1,37 @@
+<mxfile host="app.diagrams.net" agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 YaBrowser/25.10.0.0 Safari/537.36" version="29.2.9">
+  <diagram name="Диаграмма размещения" id="0">
+    <mxGraphModel dx="1388" dy="640" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="client" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;" value="Клиентское устройство&#xa;------------------&#xa;Web-браузер&#xa;&#xa;«artifact» UI&#xa;Пользовательский интерфейс Kanban-приложения&#xa;Отображение досок и карточек&#xa;Отправка HTTP-запросов" vertex="1">
+          <mxGeometry height="260" width="320" x="40" y="200" as="geometry" />
+        </mxCell>
+        <mxCell id="appServer" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e1d5e7;" value="Сервер приложения&#xa;------------------&#xa;&#xa;«artifact» CoreApp&#xa;Обработка запросов&#xa;Авторизация&#xa;Бизнес-логика&#xa;&#xa;«artifact» Services&#xa;User, Board, Card, Tag, Notification" vertex="1">
+          <mxGeometry height="300" width="360" x="460" y="180" as="geometry" />
+        </mxCell>
+        <mxCell id="dbServer" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;" value="Сервер базы данных&#xa;------------------&#xa;СУБД PostgreSQL / MySQL&#xa;&#xa;«artifact» Database&#xa;Пользователи&#xa;Доски&#xa;Карточки&#xa;Колонки&#xa;Теги" vertex="1">
+          <mxGeometry height="260" width="320" x="920" y="200" as="geometry" />
+        </mxCell>
+        <mxCell id="JR128sLPdNZpl8sZ4XRr-1" edge="1" parent="1" source="client" style="endArrow=block;labelBackgroundColor=white;" target="appServer">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="JR128sLPdNZpl8sZ4XRr-2" edge="1" parent="1" source="appServer" style="endArrow=block;labelBackgroundColor=white;" target="dbServer">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="ytBwD4JRNaiwOR3FFGoc-3" parent="1" style="text;html=1;whiteSpace=wrap;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;rounded=0;" value="*" vertex="1">
+          <mxGeometry height="30" width="60" x="340" y="300" as="geometry" />
+        </mxCell>
+        <mxCell id="ytBwD4JRNaiwOR3FFGoc-4" parent="1" style="text;html=1;whiteSpace=wrap;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;rounded=0;" value="1" vertex="1">
+          <mxGeometry height="30" width="60" x="414" y="300" as="geometry" />
+        </mxCell>
+        <mxCell id="ytBwD4JRNaiwOR3FFGoc-5" parent="1" style="text;html=1;whiteSpace=wrap;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;rounded=0;" value="1" vertex="1">
+          <mxGeometry height="30" width="60" x="800" y="300" as="geometry" />
+        </mxCell>
+        <mxCell id="ytBwD4JRNaiwOR3FFGoc-6" parent="1" style="text;html=1;whiteSpace=wrap;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;rounded=0;" value="1" vertex="1">
+          <mxGeometry height="30" width="60" x="880" y="300" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

@@ -1,0 +1,91 @@
+create table alembic_version
+(
+    version_num VARCHAR(32) not null
+        constraint alembic_version_pkc
+            primary key
+);
+
+create table groups
+(
+    name      VARCHAR(1000) not null
+        unique,
+    is_public BOOLEAN       not null,
+    id        CHAR(32)      not null
+        primary key
+);
+
+create table groupqr
+(
+    group_id   CHAR(32)      not null
+        unique
+        references groups,
+    url        VARCHAR(1000) not null
+        unique,
+    expired_at DATETIME      not null,
+    id         CHAR(32)      not null
+        primary key
+);
+
+create table playlists
+(
+    id                  CHAR(32) not null,
+    group_id            CHAR(32) not null
+        references groups,
+    current_track_index INTEGER  not null,
+    primary key (id, group_id)
+);
+
+create table sqlite_master
+(
+    type     TEXT,
+    name     TEXT,
+    tbl_name TEXT,
+    rootpage INT,
+    sql      TEXT
+);
+
+create table users
+(
+    id   CHAR(32)     not null
+        primary key,
+    name VARCHAR(255) not null
+);
+
+create table connections
+(
+    user_id   CHAR(32)    not null
+        references users,
+    group_id  CHAR(32)    not null
+        references groups,
+    joined_at DATETIME    not null,
+    role      VARCHAR(10) not null,
+    id        CHAR(32)    not null,
+    primary key (user_id, group_id, id)
+);
+
+create table tracks
+(
+    id               INTEGER      not null
+        primary key,
+    playlist_id      CHAR(32)     not null
+        references playlists (id),
+    added_by_user_id CHAR(32)     not null
+        references users,
+    service          VARCHAR(12)  not null,
+    title            VARCHAR(512) not null,
+    duration         INTEGER      not null,
+    external_url     TEXT         not null,
+    added_at         DATETIME     not null
+);
+
+create table user_credentials
+(
+    id      INTEGER     not null
+        primary key,
+    user_id CHAR(32)    not null
+        references users,
+    service VARCHAR(12) not null,
+    token   TEXT        not null,
+    expiry  DATETIME
+);
+

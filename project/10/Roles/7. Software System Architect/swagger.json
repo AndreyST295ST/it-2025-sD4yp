@@ -1,0 +1,246 @@
+{
+  "openapi": "3.0.3",
+  "info": {
+    "title": "Game Recommendation System API",
+    "description": "REST API for a game recommendation system. The API provides authentication, user profile access, game catalog access, ratings, reviews, and personalized recommendations.",
+    "version": "1.0.0"
+  },
+  "servers": [
+    {
+      "url": "http://localhost:8080",
+      "description": "Local development server"
+    }
+  ],
+  "tags": [
+    { "name": "Auth", "description": "Authentication and authorization" },
+    { "name": "Users", "description": "User profile management" },
+    { "name": "Games", "description": "Game catalog operations" },
+    { "name": "Ratings", "description": "Ratings and reviews" },
+    { "name": "Recommendations", "description": "Personalized recommendations" }
+  ],
+  "paths": {
+    "/api/login": {
+      "post": {
+        "tags": ["Auth"],
+        "summary": "Authenticate user",
+        "description": "Authenticates a user using email and password and returns an access token.",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": { "$ref": "#/components/schemas/LoginRequest" }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Authentication successful",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/LoginResponse" }
+              }
+            }
+          },
+          "401": {
+            "description": "Invalid credentials",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/ErrorResponse" }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/recommendations": {
+      "get": {
+        "tags": ["Recommendations"],
+        "summary": "Get game recommendations",
+        "description": "Returns a list of recommended games for the authenticated user.",
+        "security": [{ "bearerAuth": [] }],
+        "parameters": [
+          {
+            "name": "offset",
+            "in": "query",
+            "schema": { "type": "integer", "default": 0 }
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "schema": { "type": "integer", "default": 20 }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "List of recommended games",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": { "$ref": "#/components/schemas/Game" }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          }
+        }
+      }
+    },
+    "/api/game/{id}": {
+      "get": {
+        "tags": ["Games"],
+        "summary": "Get game details",
+        "description": "Returns detailed information about a specific game.",
+        "security": [{ "bearerAuth": [] }],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": { "type": "string", "format": "uuid" }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Game information",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/GameDetailed" }
+              }
+            }
+          },
+          "404": {
+            "description": "Game not found",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/ErrorResponse" }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/rating": {
+      "post": {
+        "tags": ["Ratings"],
+        "summary": "Submit rating",
+        "description": "Allows a user to submit or update a rating for a game.",
+        "security": [{ "bearerAuth": [] }],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": { "$ref": "#/components/schemas/RatingRequest" }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Rating saved successfully"
+          },
+          "400": {
+            "description": "Invalid input data",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/ErrorResponse" }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/review": {
+      "post": {
+        "tags": ["Ratings"],
+        "summary": "Submit review",
+        "description": "Allows a user to submit a textual review for a game.",
+        "security": [{ "bearerAuth": [] }],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": { "$ref": "#/components/schemas/ReviewRequest" }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Review saved successfully"
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "securitySchemes": {
+      "bearerAuth": {
+        "type": "http",
+        "scheme": "bearer",
+        "bearerFormat": "JWT"
+      }
+    },
+    "schemas": {
+      "LoginRequest": {
+        "type": "object",
+        "required": ["email", "password"],
+        "properties": {
+          "email": { "type": "string", "format": "email" },
+          "password": { "type": "string", "format": "password" }
+        }
+      },
+      "LoginResponse": {
+        "type": "object",
+        "properties": {
+          "accessToken": { "type": "string" },
+          "tokenType": { "type": "string", "example": "Bearer" }
+        }
+      },
+      "Game": {
+        "type": "object",
+        "properties": {
+          "gameId": { "type": "string", "format": "uuid" },
+          "title": { "type": "string" },
+          "genres": { "type": "array", "items": { "type": "string" } },
+          "rating": { "type": "number", "format": "float" }
+        }
+      },
+      "GameDetailed": {
+        "allOf": [
+          { "$ref": "#/components/schemas/Game" },
+          {
+            "type": "object",
+            "properties": {
+              "description": { "type": "string" },
+              "systemRequirements": { "type": "string" }
+            }
+          }
+        ]
+      },
+      "RatingRequest": {
+        "type": "object",
+        "required": ["gameId", "rating"],
+        "properties": {
+          "gameId": { "type": "string", "format": "uuid" },
+          "rating": { "type": "integer", "minimum": 1, "maximum": 5 }
+        }
+      },
+      "ReviewRequest": {
+        "type": "object",
+        "required": ["gameId", "comment"],
+        "properties": {
+          "gameId": { "type": "string", "format": "uuid" },
+          "comment": { "type": "string" }
+        }
+      },
+      "ErrorResponse": {
+        "type": "object",
+        "properties": {
+          "error": { "type": "string" },
+          "message": { "type": "string" }
+        }
+      }
+    }
+  }
+}

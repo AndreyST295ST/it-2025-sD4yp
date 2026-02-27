@@ -1,0 +1,22 @@
+{
+  "name": "playnext-game-recommendations",
+  "version": "1.0.0",
+  "description": "A game recommendation system for the gaming industry",
+  "main": "index.js",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview"
+  },
+  "keywords": [
+    "game",
+    "recommendations",
+    "gaming"
+  ],
+  "author": "Frontend Developer",
+  "license": "MIT",
+  "devDependencies": {
+    "vite": "^4.0.0",
+    "sass": "^1.57.1"
+  }
+}

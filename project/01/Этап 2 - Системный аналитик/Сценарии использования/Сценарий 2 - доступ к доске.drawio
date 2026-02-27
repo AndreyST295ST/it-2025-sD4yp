@@ -1,0 +1,61 @@
+<mxfile host="app.diagrams.net" agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 YaBrowser/25.12.0.0 Safari/537.36" version="29.3.4">
+  <diagram name="Сценарий 2 — Управление доступом к доске" id="0">
+    <mxGraphModel dx="1959" dy="904" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="start" parent="1" style="ellipse;whiteSpace=wrap;html=1;" value="Начало" vertex="1">
+          <mxGeometry height="60" width="120" x="470" y="40" as="geometry" />
+        </mxCell>
+        <mxCell id="openAccess" parent="1" style="rounded=1;whiteSpace=wrap;html=1;" value="Создатель / Администратор открывает меню «Доступ»" vertex="1">
+          <mxGeometry height="80" width="300" x="380" y="120" as="geometry" />
+        </mxCell>
+        <mxCell id="showUsers" parent="1" style="rounded=1;whiteSpace=wrap;html=1;" value="Система отображает список участников и их роли" vertex="1">
+          <mxGeometry height="80" width="300" x="380" y="220" as="geometry" />
+        </mxCell>
+        <mxCell id="inviteOption" parent="1" style="rounded=1;whiteSpace=wrap;html=1;" value="Выбор опции «Пригласить участника»" vertex="1">
+          <mxGeometry height="80" width="300" x="380" y="320" as="geometry" />
+        </mxCell>
+        <mxCell id="inputUser" parent="1" style="rounded=1;whiteSpace=wrap;html=1;" value="Ввод email или логина пользователя" vertex="1">
+          <mxGeometry height="80" width="300" x="380" y="420" as="geometry" />
+        </mxCell>
+        <mxCell id="selectRole" parent="1" style="rounded=1;whiteSpace=wrap;html=1;" value="Выбор роли для участника" vertex="1">
+          <mxGeometry height="80" width="300" x="380" y="520" as="geometry" />
+        </mxCell>
+        <mxCell id="confirm" parent="1" style="rounded=1;whiteSpace=wrap;html=1;" value="Подтверждение приглашения" vertex="1">
+          <mxGeometry height="80" width="300" x="380" y="620" as="geometry" />
+        </mxCell>
+        <mxCell id="addUser" parent="1" style="rounded=1;whiteSpace=wrap;html=1;" value="Система добавляет участника к доске" vertex="1">
+          <mxGeometry height="80" width="300" x="380" y="720" as="geometry" />
+        </mxCell>
+        <mxCell id="end" parent="1" style="ellipse;whiteSpace=wrap;html=1;" value="Конец" vertex="1">
+          <mxGeometry height="60" width="120" x="470" y="820" as="geometry" />
+        </mxCell>
+        <mxCell id="aQJF4T9Qi3aIkUIUuj0U-1" edge="1" parent="1" source="start" style="endArrow=block;exitX=0.5;exitY=1;exitDx=0;exitDy=0;" target="openAccess">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="aQJF4T9Qi3aIkUIUuj0U-2" edge="1" parent="1" source="openAccess" style="endArrow=block;" target="showUsers">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="aQJF4T9Qi3aIkUIUuj0U-3" edge="1" parent="1" source="showUsers" style="endArrow=block;" target="inviteOption">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="aQJF4T9Qi3aIkUIUuj0U-4" edge="1" parent="1" source="inviteOption" style="endArrow=block;" target="inputUser">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="aQJF4T9Qi3aIkUIUuj0U-5" edge="1" parent="1" source="inputUser" style="endArrow=block;" target="selectRole">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="aQJF4T9Qi3aIkUIUuj0U-6" edge="1" parent="1" source="selectRole" style="endArrow=block;" target="confirm">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="aQJF4T9Qi3aIkUIUuj0U-7" edge="1" parent="1" source="confirm" style="endArrow=block;" target="addUser">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="aQJF4T9Qi3aIkUIUuj0U-8" edge="1" parent="1" source="addUser" style="endArrow=block;" target="end">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

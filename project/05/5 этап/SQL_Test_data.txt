@@ -1,0 +1,148 @@
+-- Очистка таблиц (если нужно)
+DELETE FROM tracks;
+DELETE FROM user_credentials;
+DELETE FROM connections;
+DELETE FROM playlists;
+DELETE FROM groupqr;
+DELETE FROM groups;
+DELETE FROM users;
+
+-- Вставка пользователей
+INSERT INTO users (id, name) VALUES
+('550e8400e29b41d4a716446655440001', 'Иван Петров'),
+('550e8400e29b41d4a716446655440002', 'Мария Сидорова'),
+('550e8400e29b41d4a716446655440003', 'Алексей Иванов'),
+('550e8400e29b41d4a716446655440004', 'Екатерина Смирнова'),
+('550e8400e29b41d4a716446655440005', 'Дмитрий Кузнецов');
+
+-- Вставка групп
+INSERT INTO groups (id, name, is_public) VALUES
+('aaabbbccc11122233344455566677788', 'Вечеринка на даче', 1),
+('bbbbcccc22233344455566677788899', 'Рабочий плейлист', 0),
+('ccccdddd33344455566677788899900', 'Музыка для тренировок', 1),
+('ddddeeee44455566677788899900011', 'Романтический вечер', 0),
+('eeeeffff55566677788899900011122', 'Дорожная музыка', 1);
+
+-- Вставка подключений пользователей к группам
+INSERT INTO connections (id, user_id, group_id, joined_at, role) VALUES
+('conn001', '550e8400e29b41d4a716446655440001', 'aaabbbccc11122233344455566677788', '2024-01-15 10:30:00', 'admin'),
+('conn002', '550e8400e29b41d4a716446655440002', 'aaabbbccc11122233344455566677788', '2024-01-15 11:00:00', 'member'),
+('conn003', '550e8400e29b41d4a716446655440003', 'aaabbbccc11122233344455566677788', '2024-01-15 12:30:00', 'member'),
+('conn004', '550e8400e29b41d4a716446655440001', 'bbbbcccc22233344455566677788899', '2024-01-10 09:00:00', 'admin'),
+('conn005', '550e8400e29b41d4a716446655440004', 'bbbbcccc22233344455566677788899', '2024-01-10 09:15:00', 'member'),
+('conn006', '550e8400e29b41d4a716446655440002', 'ccccdddd33344455566677788899900', '2024-01-20 08:00:00', 'admin'),
+('conn007', '550e8400e29b41d4a716446655440005', 'ccccdddd33344455566677788899900', '2024-01-20 08:30:00', 'member'),
+('conn008', '550e8400e29b41d4a716446655440003', 'ddddeeee44455566677788899900011', '2024-01-25 19:00:00', 'admin'),
+('conn009', '550e8400e29b41d4a716446655440004', 'ddddeeee44455566677788899900011', '2024-01-25 19:15:00', 'member'),
+('conn010', '550e8400e29b41d4a716446655440005', 'eeeeffff55566677788899900011122', '2024-01-05 07:00:00', 'admin');
+
+-- Вставка плейлистов
+INSERT INTO playlists (id, group_id, current_track_index) VALUES
+('playlist001', 'aaabbbccc11122233344455566677788', 2),
+('playlist002', 'bbbbcccc22233344455566677788899', 0),
+('playlist003', 'ccccdddd33344455566677788899900', 1),
+('playlist004', 'ddddeeee44455566677788899900011', 0),
+('playlist005', 'eeeeffff55566677788899900011122', 3);
+
+-- Вставка QR-кодов для групп
+INSERT INTO groupqr (id, group_id, url, expired_at) VALUES
+('qr001', 'aaabbbccc11122233344455566677788', 'https://example.com/qr/party123', '2024-12-31 23:59:59'),
+('qr002', 'bbbbcccc22233344455566677788899', 'https://example.com/qr/work456', '2024-06-30 23:59:59'),
+('qr003', 'ccccdddd33344455566677788899900', 'https://example.com/qr/gym789', '2024-12-31 23:59:59');
+
+-- Вставка треков
+INSERT INTO tracks (id, playlist_id, added_by_user_id, service, title, duration, external_url, added_at) VALUES
+(1, 'playlist001', '550e8400e29b41d4a716446655440001', 'youtube', 'Imagine Dragons - Believer', 204, 'https://youtu.be/7wtfhZwyrcc', '2024-01-15 10:35:00'),
+(2, 'playlist001', '550e8400e29b41d4a716446655440002', 'spotify', 'The Weeknd - Blinding Lights', 200, 'https://open.spotify.com/track/0VjIjW4GlUZAMYd2vXMi3b', '2024-01-15 11:05:00'),
+(3, 'playlist001', '550e8400e29b41d4a716446655440003', 'youtube', 'Dua Lipa - Levitating', 203, 'https://youtu.be/TUVcZfQe-Kw', '2024-01-15 12:35:00'),
+(4, 'playlist001', '550e8400e29b41d4a716446655440001', 'spotify', 'Coldplay - Yellow', 266, 'https://open.spotify.com/track/3AJwUDP919kvQ9QcozQPxg', '2024-01-16 09:00:00'),
+(5, 'playlist001', '550e8400e29b41d4a716446655440002', 'youtube', 'Queen - Bohemian Rhapsody', 354, 'https://youtu.be/fJ9rUzIMcZQ', '2024-01-16 14:30:00'),
+
+(6, 'playlist002', '550e8400e29b41d4a716446655440001', 'spotify', 'Lofi Beats for Study', 3600, 'https://open.spotify.com/playlist/37i9dQZF1DX8Uebhn9wzrS', '2024-01-10 09:05:00'),
+(7, 'playlist002', '550e8400e29b41d4a716446655440004', 'youtube', 'Classical Music for Concentration', 4200, 'https://youtu.be/mx4y8ijVQTI', '2024-01-10 09:20:00'),
+
+(8, 'playlist003', '550e8400e29b41d4a716446655440002', 'spotify', 'Eminem - Lose Yourself', 326, 'https://open.spotify.com/track/5Z01UMMf7V1o0MzF86s6WJ', '2024-01-20 08:05:00'),
+(9, 'playlist003', '550e8400e29b41d4a716446655440005', 'youtube', 'Kanye West - Stronger', 312, 'https://youtu.be/PsO6ZnUZI0g', '2024-01-20 08:35:00'),
+(10, 'playlist003', '550e8400e29b41d4a716446655440002', 'spotify', 'AC/DC - Thunderstruck', 292, 'https://open.spotify.com/track/57bgtoPSgt236HzfBOd8kj', '2024-01-21 10:00:00'),
+
+(11, 'playlist004', '550e8400e29b41d4a716446655440003', 'spotify', 'Ed Sheeran - Perfect', 263, 'https://open.spotify.com/track/0tgVpDi06FyKpA1z0VMD4v', '2024-01-25 19:05:00'),
+(12, 'playlist004', '550e8400e29b41d4a716446655440004', 'youtube', 'John Legend - All of Me', 269, 'https://youtu.be/450p7goxZqg', '2024-01-25 19:20:00'),
+
+(13, 'playlist005', '550e8400e29b41d4a716446655440005', 'spotify', 'Tom Cochrane - Life Is a Highway', 260, 'https://open.spotify.com/track/7jIFGkBIh6xq22MtCg7xRG', '2024-01-05 07:05:00'),
+(14, 'playlist005', '550e8400e29b41d4a716446655440005', 'youtube', 'Red Hot Chili Peppers - Road Trippin''', 205, 'https://youtu.be/11GYvfA4VM4', '2024-01-05 07:10:00'),
+(15, 'playlist005', '550e8400e29b41d4a716446655440005', 'spotify', 'The Doors - Riders on the Storm', 434, 'https://open.spotify.com/track/6QdiHeHdSikL5uN7p6ZJ84', '2024-01-05 07:15:00'),
+(16, 'playlist005', '550e8400e29b41d4a716446655440005', 'youtube', 'John Denver - Take Me Home, Country Roads', 198, 'https://youtu.be/1vrEljMfXYo', '2024-01-05 07:20:00');
+
+-- Вставка учетных данных пользователей
+INSERT INTO user_credentials (id, user_id, service, token, expiry) VALUES
+(1, '550e8400e29b41d4a716446655440001', 'spotify', 'BQBsJjJXvVcZfQe-KwTUVcZfQe-KwTUVcZfQe-KwTUVcZfQe-KwTUVc', '2024-12-31 23:59:59'),
+(2, '550e8400e29b41d4a716446655440001', 'youtube', 'ya29.a0AXooCguXo6rVJ3D8uF4Gg9hT4iKjL7zXcVbNmQwErTyUiOpAsDfGhJkLzXcVbNmQwEr', '2024-12-31 23:59:59'),
+(3, '550e8400e29b41d4a716446655440002', 'spotify', 'BQCsKkKYwWxDgGhJiLkMnBbVcXzAsDfGhJkLzXcVbNmQwErTyUiOpAsDfGhJkLzXcVbNmQw', '2024-11-30 23:59:59'),
+(4, '550e8400e29b41d4a716446655440003', 'youtube', 'ya29.b0AXooCguXo6rVJ3D8uF4Gg9hT4iKjL7zXcVbNmQwErTyUiOpAsDfGhJkLzXcVbNmQwErTy', '2024-10-31 23:59:59'),
+(5, '550e8400e29b41d4a716446655440004', 'spotify', 'BQDsLlLZzAaBbCcDdEeFfGgHhIiJjKkLlMmNnOoPpQqRrSsTtUuVvWwXxYyZz0123456789', '2024-09-30 23:59:59'),
+(6, '550e8400e29b41d4a716446655440005', 'youtube', 'ya29.c0AXooCguXo6rVJ3D8uF4Gg9hT4iKjL7zXcVbNmQwErTyUiOpAsDfGhJkLzXcVbNmQwErTyUi', '2024-08-31 23:59:59');
+
+-- Вставка данных о миграциях (alembic_version)
+INSERT INTO alembic_version (version_num) VALUES
+('abc123def456ghi789jkl012mno345');
+
+-- Примеры запросов для проверки данных
+
+-- 1. Показать всех пользователей
+SELECT * FROM users;
+
+-- 2. Показать группы и их участников
+SELECT 
+    g.name as group_name,
+    g.is_public,
+    u.name as user_name,
+    c.role,
+    c.joined_at
+FROM groups g
+JOIN connections c ON g.id = c.group_id
+JOIN users u ON c.user_id = u.id
+ORDER BY g.name, c.role;
+
+-- 3. Показать треки в группе "Вечеринка на даче"
+SELECT 
+    t.title,
+    t.service,
+    t.duration,
+    u.name as added_by,
+    t.added_at
+FROM tracks t
+JOIN playlists p ON t.playlist_id = p.id
+JOIN groups g ON p.group_id = g.id
+JOIN users u ON t.added_by_user_id = u.id
+WHERE g.name = 'Вечеринка на даче'
+ORDER BY t.added_at;
+
+-- 4. Показать плейлисты и количество треков в них
+SELECT 
+    g.name as group_name,
+    p.id as playlist_id,
+    p.current_track_index,
+    COUNT(t.id) as track_count
+FROM playlists p
+JOIN groups g ON p.group_id = g.id
+LEFT JOIN tracks t ON p.id = t.playlist_id
+GROUP BY p.id, g.name
+ORDER BY g.name;
+
+-- 5. Показать пользователей и их учетные данные
+SELECT 
+    u.name,
+    uc.service,
+    uc.expiry
+FROM users u
+JOIN user_credentials uc ON u.id = uc.user_id
+ORDER BY u.name, uc.service;
+
+-- 6. Показать активные QR-коды
+SELECT 
+    g.name as group_name,
+    qr.url,
+    qr.expired_at
+FROM groupqr qr
+JOIN groups g ON qr.group_id = g.id
+WHERE qr.expired_at > CURRENT_TIMESTAMP;

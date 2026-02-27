@@ -1,0 +1,47 @@
+@startuml
+
+left to right direction
+skinparam usecase {
+  BackgroundColor #FDF6E3
+  BorderColor black
+}
+
+actor Player
+actor Developer
+actor Moderator
+
+  ' ===== Use Cases для игрока =====
+  usecase "Просмотр рекомендаций\n(Explore)" as UC_Explore
+  usecase "Управление предпочтениями\n(Preferences)" as UC_Preferences
+  usecase "Просмотр и редактирование профиля\n(Profile)" as UC_Profile
+  usecase "Просмотр информации об игре" as UC_ViewGame
+  usecase "Выставление оценки игре" as UC_RateGame
+  usecase "Написание ревью" as UC_WriteReview
+
+  ' ===== Use Cases для разработчика =====
+  usecase "Публикация игры" as UC_PublishGame
+
+  ' ===== Use Cases для модератора =====
+  usecase "Модерация игр" as UC_ModerateGame
+  usecase "Мониторинг состояния системы" as UC_SystemMonitor
+
+' ===== Связи акторов с вариантами использования =====
+Player --> UC_Explore
+Player --> UC_Preferences
+Player --> UC_Profile
+Player --> UC_ViewGame
+Player --> UC_RateGame
+Player --> UC_WriteReview
+
+Developer --> UC_PublishGame
+
+Moderator --> UC_ModerateGame
+Moderator --> UC_SystemMonitor
+
+UC_WriteReview ..> UC_RateGame : <<include>>
+
+UC_Preferences -[hidden]-> UC_Profile
+UC_ViewGame -[hidden]-> UC_RateGame
+UC_RateGame -[hidden]-> UC_Explore
+
+@enduml

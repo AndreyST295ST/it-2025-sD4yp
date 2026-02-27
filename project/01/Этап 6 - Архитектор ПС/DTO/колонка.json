@@ -1,0 +1,19 @@
+// ColumnCreateRequest
+{
+  "boardId": "b_10",
+  "title": "В работе"
+}
+
+// ColumnResponse
+{
+  "id": "c_1",
+  "boardId": "b_10",
+  "title": "В работе",
+  "position": 2
+}
+
+// ColumnReorderRequest
+{
+  "boardId": "b_10",
+  "orderedColumnIds": ["c_0","c_1","c_2"]
+}

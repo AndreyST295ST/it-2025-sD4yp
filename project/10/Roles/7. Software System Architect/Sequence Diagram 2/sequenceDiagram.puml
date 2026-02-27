@@ -1,0 +1,91 @@
+@startuml
+title Процесс формирования рекомендаций для пользователя
+
+actor Пользователь
+participant "User Interface" as UI
+participant "CoreApp" as CoreApp
+participant "User Manager" as UserManager
+participant "Game Manager" as GameManager
+participant "Rating Manager" as RatingManager
+participant "Recommendation Manager" as RecoManager
+database DB
+
+== Открытие страницы Explore и получение рекомендаций ==
+
+Пользователь -> UI : Открывает страницу Explore
+UI -> CoreApp : GET /api/recommendations
+CoreApp -> UserManager : Запрос профиля пользователя
+UserManager -> DB : Получение данных пользователя
+DB --> UserManager : Профиль пользователя
+UserManager --> CoreApp : Профиль пользователя
+
+CoreApp -> RatingManager : Запрос пользовательских оценок
+RatingManager -> DB : Получение оценок
+DB --> RatingManager : Оценки пользователя
+RatingManager --> CoreApp : Оценки пользователя
+
+alt Первый вход или нет оценок
+    CoreApp -> GameManager : Запрос случайных игр
+    GameManager -> DB : Получение списка игр
+    DB --> GameManager : Список игр
+    GameManager --> CoreApp : Случайные игры
+else Есть история взаимодействия
+    CoreApp -> RecoManager : Формирование рекомендаций\n(профиль + оценки)
+    RecoManager --> CoreApp : Список рекомендованных ID игр
+    CoreApp -> GameManager : Получение данных игр по ID
+    GameManager -> DB : Получение данных игр по ID
+    DB --> GameManager : Данные игр
+    GameManager --> CoreApp : Данные игр
+end
+
+CoreApp --> UI : Список игр для Explore
+UI --> Пользователь : Отображение рекомендаций
+
+== Взаимодействие с игрой ==
+
+Пользователь -> UI : Выбор игры
+UI -> CoreApp : GET /api/game/{id}
+CoreApp -> GameManager : Запрос информации об игре
+GameManager -> DB : Получение данных игры
+DB --> GameManager : Данные игры
+GameManager --> CoreApp : Данные игры
+
+CoreApp -> RatingManager : Запрос отзывов и оценок
+RatingManager -> DB : Получение отзывов
+DB --> RatingManager : Отзывы и оценки
+RatingManager --> CoreApp : Отзывы и оценки
+
+CoreApp --> UI : Страница игры
+UI --> Пользователь : Отображение страницы игры
+
+Пользователь -> UI : Выставляет оценку
+UI -> CoreApp : POST /api/rating
+CoreApp -> RatingManager : Сохранение оценки
+RatingManager -> DB : Запись оценки
+DB --> RatingManager : Подтверждение
+RatingManager --> CoreApp : Оценка сохранена
+CoreApp --> UI : Обновление данных
+UI --> Пользователь : Отображение поставленной оценки
+
+opt Пользователь пишет ревью
+    Пользователь -> UI : Ввод комментария
+    Пользователь -> UI : Нажатие кнопки "Отправить"
+    UI -> CoreApp : POST /api/review
+    CoreApp -> RatingManager : Сохранение комментария
+    RatingManager -> DB : Запись комментария
+    DB --> RatingManager : Подтверждение
+    RatingManager --> CoreApp : Ревью сохранено
+    CoreApp --> UI : Обновление отзывов
+    UI --> Пользователь : Отображение нового комментария
+end
+
+== Динамическое обновление рекомендаций ==
+
+Пользователь -> UI : Скролл до конца списка
+UI -> CoreApp : GET /api/recommendations (next batch)
+CoreApp -> RecoManager : Обновление рекомендаций
+RecoManager --> CoreApp : Дополнительные рекомендации
+CoreApp --> UI : Новый список игр
+UI --> Пользователь : Отображение новых рекомендаций
+
+@enduml

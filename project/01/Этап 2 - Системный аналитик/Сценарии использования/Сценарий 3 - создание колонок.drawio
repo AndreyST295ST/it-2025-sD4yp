@@ -1,0 +1,76 @@
+<mxfile host="app.diagrams.net" agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 YaBrowser/25.12.0.0 Safari/537.36" version="29.3.4">
+  <diagram name="Сценарий 3 — Работа с колонками" id="0">
+    <mxGraphModel dx="2775" dy="1280" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="start" parent="1" style="ellipse;whiteSpace=wrap;html=1;" value="Начало" vertex="1">
+          <mxGeometry height="60" width="120" x="460" y="20" as="geometry" />
+        </mxCell>
+        <mxCell id="addColumn" parent="1" style="rounded=1;whiteSpace=wrap;html=1;" value="Создатель / Администратор выбирает «Добавить колонку»" vertex="1">
+          <mxGeometry height="80" width="320" x="360" y="120" as="geometry" />
+        </mxCell>
+        <mxCell id="editMode" parent="1" style="rounded=1;whiteSpace=wrap;html=1;" value="Система создаёт колонку в режиме редактирования" vertex="1">
+          <mxGeometry height="80" width="320" x="360" y="220" as="geometry" />
+        </mxCell>
+        <mxCell id="enterName" parent="1" style="rounded=1;whiteSpace=wrap;html=1;" value="Пользователь вводит название колонки" vertex="1">
+          <mxGeometry height="80" width="320" x="360" y="320" as="geometry" />
+        </mxCell>
+        <mxCell id="moveColumn" parent="1" style="rounded=1;whiteSpace=wrap;html=1;" value="Пользователь перемещает колонку" vertex="1">
+          <mxGeometry height="80" width="320" x="360" y="420" as="geometry" />
+        </mxCell>
+        <mxCell id="saveOrder" parent="1" style="rounded=1;whiteSpace=wrap;html=1;" value="Система сохраняет порядок колонок" vertex="1">
+          <mxGeometry height="80" width="320" x="360" y="520" as="geometry" />
+        </mxCell>
+        <mxCell id="deleteColumn" parent="1" style="rounded=1;whiteSpace=wrap;html=1;" value="Пользователь выбирает «Удалить колонку»" vertex="1">
+          <mxGeometry height="80" width="320" x="360" y="620" as="geometry" />
+        </mxCell>
+        <mxCell id="checkCards" parent="1" style="rhombus;whiteSpace=wrap;html=1;" value="В колонке есть карточки?" vertex="1">
+          <mxGeometry height="100" width="200" x="420" y="720" as="geometry" />
+        </mxCell>
+        <mxCell id="warning" parent="1" style="rounded=1;whiteSpace=wrap;html=1;" value="Система показывает предупреждение" vertex="1">
+          <mxGeometry height="80" width="300" x="114" y="840" as="geometry" />
+        </mxCell>
+        <mxCell id="deleteConfirmed" parent="1" style="rounded=1;whiteSpace=wrap;html=1;" value="После подтверждения колонка удаляется" vertex="1">
+          <mxGeometry height="80" width="300" x="590" y="840" as="geometry" />
+        </mxCell>
+        <mxCell id="end" parent="1" style="ellipse;whiteSpace=wrap;html=1;" value="Конец" vertex="1">
+          <mxGeometry height="60" width="120" x="460" y="960" as="geometry" />
+        </mxCell>
+        <mxCell id="GpN3HhQS_lBna08HDrpE-1" edge="1" parent="1" source="start" style="endArrow=block;" target="addColumn">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="GpN3HhQS_lBna08HDrpE-2" edge="1" parent="1" source="addColumn" style="endArrow=block;" target="editMode">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="GpN3HhQS_lBna08HDrpE-3" edge="1" parent="1" source="editMode" style="endArrow=block;" target="enterName">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="GpN3HhQS_lBna08HDrpE-4" edge="1" parent="1" source="enterName" style="endArrow=block;" target="moveColumn">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="GpN3HhQS_lBna08HDrpE-5" edge="1" parent="1" source="moveColumn" style="endArrow=block;" target="saveOrder">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="GpN3HhQS_lBna08HDrpE-6" edge="1" parent="1" source="saveOrder" style="endArrow=block;" target="deleteColumn">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="GpN3HhQS_lBna08HDrpE-7" edge="1" parent="1" source="deleteColumn" style="endArrow=block;" target="checkCards">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="GpN3HhQS_lBna08HDrpE-8" edge="1" parent="1" source="checkCards" style="endArrow=block;entryX=0.5;entryY=0;entryDx=0;entryDy=0;exitX=0;exitY=0.5;exitDx=0;exitDy=0;" target="warning" value="Да">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="GpN3HhQS_lBna08HDrpE-9" edge="1" parent="1" source="checkCards" style="endArrow=block;entryX=0.5;entryY=0;entryDx=0;entryDy=0;exitX=1;exitY=0.5;exitDx=0;exitDy=0;" target="deleteConfirmed" value="Нет">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="GpN3HhQS_lBna08HDrpE-10" edge="1" parent="1" source="warning" style="endArrow=block;" target="deleteConfirmed">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="GpN3HhQS_lBna08HDrpE-11" edge="1" parent="1" source="deleteConfirmed" style="endArrow=block;exitX=0.5;exitY=1;exitDx=0;exitDy=0;" target="end">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

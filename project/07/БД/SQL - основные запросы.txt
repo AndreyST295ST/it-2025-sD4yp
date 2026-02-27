@@ -1,0 +1,154 @@
+Для страницы профиля пользователя:
+-- Получение данных пользователя
+SELECT id, email, full_name, phone_number FROM "User" WHERE id = :user_id;
+
+-- Обновление профиля
+UPDATE "User" 
+SET full_name = :new_name, phone_number = :new_phone 
+WHERE id = :user_id;
+
+-- Получение избранных коворкингов пользователя
+SELECT w.* FROM Workspace w 
+JOIN Visitor v ON w.id = ANY(v.favorite_workspaces)
+WHERE v.user_id = :user_id; 
+
+Для страницы коворкингов:
+-- Получение всех коворкингов
+SELECT * FROM Workspace ORDER BY name;
+
+-- Поиск коворкингов по местоположению
+SELECT * FROM Workspace WHERE location ILIKE '%' || :search_location || '%';
+
+-- Получение доступных коворкингов на определенную дату
+SELECT w.* FROM Workspace w
+WHERE NOT EXISTS (
+    SELECT 1 FROM Reservation r 
+    WHERE r.workspace_id = w.id 
+    AND r.reservation_date = :desired_date
+    AND r.status IN ('confirmed', 'pending')
+    AND (
+        (:start_time BETWEEN r.start_time AND r.start_time + INTERVAL '1 hour' * r.duration_hours) OR
+        (:start_time + INTERVAL '1 hour' * :duration_hours BETWEEN r.start_time AND r.start_time + INTERVAL '1 hour' * r.duration_hours)
+    )
+);
+
+Для страницы бронирований:
+-- Создание нового бронирования
+INSERT INTO Reservation (user_id, workspace_id, reservation_date, start_time, duration_hours, total_price)
+VALUES (:user_id, :workspace_id, :reservation_date, :start_time, :duration_hours, 
+        (SELECT price_per_hour * :duration_hours FROM Workspace WHERE id = :workspace_id))
+RETURNING *;
+
+-- Получение бронирований пользователя
+SELECT r.*, w.name as workspace_name, w.location 
+FROM Reservation r 
+JOIN Workspace w ON r.workspace_id = w.id 
+WHERE r.user_id = :user_id 
+ORDER BY r.reservation_date DESC, r.start_time DESC;
+
+-- Отмена бронирования
+UPDATE Reservation SET status = 'cancelled' 
+WHERE id = :reservation_id AND user_id = :user_id;
+
+-- Получение деталей конкретного бронирования
+SELECT r.*, w.*, u.full_name 
+FROM Reservation r
+JOIN Workspace w ON r.workspace_id = w.id
+JOIN "User" u ON r.user_id = u.id
+WHERE r.id = :reservation_id;
+
+Для страницы "мои бронирования":
+-- Получение активных бронирований пользователя
+SELECT r.*, w.name as workspace_name, w.location, q.code_data as qr_code
+FROM Reservation r
+JOIN Workspace w ON r.workspace_id = w.id
+LEFT JOIN QRCode q ON r.id = q.reservation_id
+WHERE r.user_id = :user_id 
+AND r.status IN ('confirmed', 'pending')
+AND (r.reservation_date > CURRENT_DATE OR 
+     (r.reservation_date = CURRENT_DATE AND r.start_time > CURRENT_TIME))
+ORDER BY r.reservation_date, r.start_time;
+
+-- Получение истории бронирований
+SELECT r.*, w.name as workspace_name 
+FROM Reservation r
+JOIN Workspace w ON r.workspace_id = w.id
+WHERE r.user_id = :user_id 
+AND (r.status = 'completed' OR 
+     (r.reservation_date < CURRENT_DATE OR 
+      (r.reservation_date = CURRENT_DATE AND r.start_time < CURRENT_TIME)))
+ORDER BY r.reservation_date DESC;
+
+Для административных функций:
+-- Получение всех бронирований для администратора
+SELECT r.*, u.full_name, u.email, w.name as workspace_name
+FROM Reservation r
+JOIN "User" u ON r.user_id = u.id
+JOIN Workspace w ON r.workspace_id = w.id
+WHERE w.id = ANY(SELECT unnest(managed_locations) FROM Administrator WHERE user_id = :admin_id)
+ORDER BY r.reservation_date DESC;
+
+-- Получение статистики по коворкингам
+SELECT w.name, 
+       COUNT(r.id) as total_bookings,
+       SUM(r.duration_hours) as total_hours,
+       SUM(r.total_price) as total_revenue,
+       AVG(r.duration_hours) as avg_duration
+FROM Workspace w
+LEFT JOIN Reservation r ON w.id = r.workspace_id AND r.status = 'confirmed'
+GROUP BY w.id, w.name
+ORDER BY total_revenue DESC;
+
+-- Проверка доступности коворкинга
+SELECT CASE 
+    WHEN EXISTS (
+        SELECT 1 FROM Reservation r 
+        WHERE r.workspace_id = :workspace_id
+        AND r.reservation_date = :check_date
+        AND r.start_time <= :end_time
+        AND r.start_time + INTERVAL '1 hour' * r.duration_hours >= :start_time
+        AND r.status IN ('confirmed', 'pending')
+    ) THEN 'occupied' 
+    ELSE 'available' 
+END as availability;
+
+Для работы с QR кодами:
+-- Генерация QR кода для бронирования
+INSERT INTO QRCode (reservation_id, code_data, expires_at)
+VALUES (:reservation_id, :qr_code, :expires_at)
+ON CONFLICT (reservation_id) DO UPDATE 
+SET code_data = EXCLUDED.code_data, 
+    expires_at = EXCLUDED.expires_at,
+    generated_at = CURRENT_TIMESTAMP,
+    is_used = FALSE;
+
+-- Валидация QR кода
+UPDATE QRCode 
+SET is_used = TRUE 
+WHERE code_data = :qr_code 
+AND reservation_id = :reservation_id
+AND expires_at > CURRENT_TIMESTAMP
+AND is_used = FALSE
+RETURNING *;
+
+Для отчетов:
+-- Создание отчета
+INSERT INTO Report (generated_by, report_type, period, data)
+VALUES (:user_id, :report_type, :period, :data::jsonb);
+
+-- Получение отчетов по типу
+SELECT * FROM Report 
+WHERE report_type = :report_type 
+ORDER BY created_at DESC;
+
+-- Отчет по доходам за период
+SELECT 
+    DATE_TRUNC('month', r.reservation_date) as month,
+    COUNT(*) as bookings_count,
+    SUM(r.total_price) as total_revenue,
+    AVG(r.total_price) as avg_booking_price
+FROM Reservation r
+WHERE r.status = 'confirmed'
+    AND r.reservation_date BETWEEN :start_date AND :end_date
+GROUP BY DATE_TRUNC('month', r.reservation_date)
+ORDER BY month;

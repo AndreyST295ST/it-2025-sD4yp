@@ -1,0 +1,16 @@
+// RegisterRequest
+{
+  "email": "user@example.com",
+  "username": "ivan",
+  "password": "********"
+}
+
+// AuthResponse
+{
+  "accessToken": "jwt...",
+  "user": {
+    "id": "u_123",
+    "email": "user@example.com",
+    "username": "ivan"
+  }
+}

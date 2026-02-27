@@ -1,0 +1,11 @@
+{
+  "type": "CARD_MOVED",
+  "boardId": "b_10",
+  "payload": {
+    "cardId": "t_77",
+    "fromColumnId": "c_1",
+    "toColumnId": "c_2",
+    "toPosition": 0
+  },
+  "occurredAt": "2025-12-20T10:02:00Z"
+}

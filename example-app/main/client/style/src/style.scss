@@ -1,0 +1,10 @@
+@use '../../../3rd/font/src/fontRoboto';
+
+$font-family-sans-serif: 'Roboto1';
+
+@import '../../../3rd/bootstrap/5.3.8/scss/bootstrap.scss';
+
+.my {
+    background-color: aqua;
+    @extend .mb-4;
+}

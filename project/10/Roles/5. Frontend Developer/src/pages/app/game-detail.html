@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Game Detail - PlayNext</title>
+    <link rel="stylesheet" href="../../styles/style.css">
+</head>
+<body>
+    <div class="app-container">
+        <main class="game-detail-content">
+            <div class="game-header">
+                <img src="https://via.placeholder.com/300x400" alt="Game Cover" class="game-cover-large">
+                <div class="game-info">
+                    <h1 class="game-title">Game Title</h1>
+                    <p class="game-description">
+                        This is a detailed description of the game. It provides information about the gameplay,
+                        story, graphics, and other important features of the game. Players can read this description
+                        to understand what the game is about before deciding to play it.
+                    </p>
+                </div>
+            </div>
+            
+            <div class="user-rating">
+                <h3>Your rating</h3>
+                <div class="star-rating">
+                    <span class="star" data-rating="1">&#9733;</span>
+                    <span class="star" data-rating="2">&#9733;</span>
+                    <span class="star" data-rating="3">&#9733;</span>
+                    <span class="star" data-rating="4">&#9733;</span>
+                    <span class="star" data-rating="5">&#9733;</span>
+                </div>
+                
+                <textarea id="review-text" placeholder="Write your review here..."></textarea>
+                <button class="btn btn-primary" id="submit-review" style="display: none;">Submit Review</button>
+            </div>
+            
+            <div class="user-reviews">
+                <h3>User reviews</h3>
+                <div class="reviews-list">
+                    <div class="review-item">
+                        <div class="review-rating">
+                            <span class="star filled">&#9733;</span>
+                            <span class="star filled">&#9733;</span>
+                            <span class="star filled">&#9733;</span>
+                            <span class="star filled">&#9733;</span>
+                            <span class="star">&#9733;</span>
+                        </div>
+                        <p class="reviewer-name">Gamer123</p>
+                        <p class="review-text">This game is amazing! I've been playing it for hours and can't put it down.</p>
+                    </div>
+                    
+                    <div class="review-item">
+                        <div class="review-rating">
+                            <span class="star filled">&#9733;</span>
+                            <span class="star filled">&#9733;</span>
+                            <span class="star filled">&#9733;</span>
+                            <span class="star filled">&#9733;</span>
+                            <span class="star filled">&#9733;</span>
+                        </div>
+                        <p class="reviewer-name">PlayerOne</p>
+                        <p class="review-text">Best game I've played this year. The graphics are stunning and the gameplay is smooth.</p>
+                    </div>
+                    
+                    <div class="review-item">
+                        <div class="review-rating">
+                            <span class="star filled">&#9733;</span>
+                            <span class="star filled">&#9733;</span>
+                            <span class="star filled">&#9733;</span>
+                            <span class="star">&#9733;</span>
+                            <span class="star">&#9733;</span>
+                        </div>
+                        <p class="reviewer-name">GameLover</p>
+                        <p class="review-text">Good game overall, but could use some improvements in the story department.</p>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+    
+    <script type="module" src="../../scripts/game-detail.js"></script>
+</body>
+</html>

@@ -1,0 +1,260 @@
+------------------------------------------------------------
+-- 1. СОЗДАНИЕ БИБЛИОТЕКИ
+-- Создаёт библиотеку и автоматически выдаёт владельцу роль owner
+-- Параметры:
+--   $1 owner_id
+--   $2 name
+--   $3 description
+--   $4 is_public (boolean)
+------------------------------------------------------------
+BEGIN;
+
+INSERT INTO libraries (owner_id, name, description, is_public)
+VALUES ($1, $2, $3, $4)
+RETURNING id;
+
+-- Использовать возвращённый id библиотеки
+INSERT INTO accesses (library_id, user_id, role)
+VALUES (CURRVAL(pg_get_serial_sequence('libraries','id')), $1, 'owner');
+
+COMMIT;
+
+
+
+------------------------------------------------------------
+-- 2. ДОБАВЛЕНИЕ КНИГИ В БИБЛИОТЕКУ
+-- Параметры:
+--   $1 library_id
+--   $2 title
+--   $3 author
+--   $4 genre
+--   $5 isbn
+--   $6 published_year
+--   $7 added_by (user_id)
+------------------------------------------------------------
+INSERT INTO books (
+    library_id,
+    title,
+    author,
+    genre,
+    isbn,
+    published_year,
+    added_by
+)
+VALUES ($1, $2, $3, $4, $5, $6, $7)
+RETURNING *;
+
+
+
+------------------------------------------------------------
+-- 3. ОБНОВЛЕНИЕ ПРОГРЕССА ЧТЕНИЯ
+-- Если прогресс уже есть — обновляется
+-- Параметры:
+--   $1 book_id
+--   $2 user_id
+--   $3 page
+------------------------------------------------------------
+INSERT INTO reading_progress (book_id, user_id, page, last_read_at)
+VALUES ($1, $2, $3, now())
+ON CONFLICT (book_id, user_id)
+DO UPDATE SET
+    page = EXCLUDED.page,
+    last_read_at = now()
+RETURNING *;
+
+
+
+------------------------------------------------------------
+-- 4. ДОБАВИТЬ ЗАКЛАДКУ
+-- Параметры:
+--   $1 progress_id
+--   $2 page
+--   $3 note
+------------------------------------------------------------
+INSERT INTO bookmarks (progress_id, page, note)
+VALUES ($1, $2, $3)
+RETURNING *;
+
+
+
+------------------------------------------------------------
+-- 5. УДАЛИТЬ ЗАКЛАДКУ
+-- Удаляет закладку и все связанные цитаты (CASCADE)
+-- Параметры:
+--   $1 bookmark_id
+------------------------------------------------------------
+DELETE FROM bookmarks
+WHERE id = $1;
+
+
+
+------------------------------------------------------------
+-- 6. ДОБАВИТЬ ЦИТАТУ
+-- Параметры:
+--   $1 bookmark_id
+--   $2 start_pos
+--   $3 end_pos
+--   $4 quote_text
+------------------------------------------------------------
+INSERT INTO quotes (
+    bookmark_id,
+    start_pos,
+    end_pos,
+    quote_text
+)
+VALUES ($1, $2, $3, $4)
+RETURNING *;
+
+
+
+------------------------------------------------------------
+-- 7. УДАЛИТЬ ЦИТАТУ
+-- Параметры:
+--   $1 quote_id
+------------------------------------------------------------
+DELETE FROM quotes
+WHERE id = $1;
+
+
+
+------------------------------------------------------------
+-- 8. ОТПРАВИТЬ ПРИГЛАШЕНИЕ В БИБЛИОТЕКУ
+-- Параметры:
+--   $1 sender_id
+--   $2 receiver_id
+--   $3 library_id
+--   $4 role_requested (viewer/editor)
+------------------------------------------------------------
+INSERT INTO invitations (
+    sender_id,
+    receiver_id,
+    library_id,
+    role_requested
+)
+VALUES ($1, $2, $3, $4)
+RETURNING *;
+
+
+
+------------------------------------------------------------
+-- 9. ПРИНЯТЬ ПРИГЛАШЕНИЕ
+-- Добавляет доступ пользователю и помечает приглашение как accepted
+-- Параметры:
+--   $1 invitation_id
+------------------------------------------------------------
+BEGIN;
+
+WITH inv AS (
+    SELECT id, receiver_id, library_id, role_requested
+    FROM invitations
+    WHERE id = $1 AND status = 'pending'
+    FOR UPDATE
+)
+UPDATE invitations
+SET status = 'accepted',
+    responded_at = now()
+WHERE id = $1;
+
+INSERT INTO accesses (library_id, user_id, role)
+SELECT library_id, receiver_id, role_requested
+FROM inv
+ON CONFLICT (library_id, user_id)
+DO UPDATE SET role = EXCLUDED.role;
+
+COMMIT;
+
+
+
+------------------------------------------------------------
+-- 10. ПОКАЗАТЬ ВСЕ КНИГИ В БИБЛИОТЕКЕ
+-- Параметры:
+--   $1 library_id
+------------------------------------------------------------
+SELECT *
+FROM books
+WHERE library_id = $1
+ORDER BY title;
+
+
+
+------------------------------------------------------------
+-- 11. ПОКАЗАТЬ ВСЕ БИБЛИОТЕКИ, СОЗДАННЫЕ ПОЛЬЗОВАТЕЛЕМ
+-- Параметры:
+--   $1 owner_id
+------------------------------------------------------------
+SELECT *
+FROM libraries
+WHERE owner_id = $1
+ORDER BY created_at;
+
+
+
+------------------------------------------------------------
+-- 12. ПОКАЗАТЬ ВСЕ БИБЛИОТЕКИ, К КОТОРЫМ ПОЛЬЗОВАТЕЛЬ ИМЕЕТ ДОСТУП
+-- Параметры:
+--   $1 user_id
+------------------------------------------------------------
+SELECT
+    l.id,
+    l.name,
+    l.description,
+    a.role,
+    a.granted_at
+FROM libraries l
+JOIN accesses a ON a.library_id = l.id
+WHERE a.user_id = $1
+ORDER BY l.name;
+
+
+
+------------------------------------------------------------
+-- 13. ПОКАЗАТЬ КНИГИ ИЗ БИБЛИОТЕКИ ПО АВТОРУ / ЖАНРУ
+-- Параметры:
+--   $1 library_id
+--   $2 author (может быть NULL)
+--   $3 genre (может быть NULL)
+------------------------------------------------------------
+SELECT *
+FROM books
+WHERE library_id = $1
+  AND ($2 IS NULL OR author ILIKE '%' || $2 || '%')
+  AND ($3 IS NULL OR genre ILIKE '%' || $3 || '%')
+ORDER BY title;
+
+
+
+------------------------------------------------------------
+-- 14. ПОКАЗАТЬ ВСЕ ЗАКЛАДКИ И ЦИТАТЫ ПОЛЬЗОВАТЕЛЯ В БИБЛИОТЕКЕ
+-- Параметры:
+--   $1 user_id
+--   $2 library_id
+------------------------------------------------------------
+SELECT
+    b.id AS bookmark_id,
+    b.page,
+    b.note,
+    q.id AS quote_id,
+    q.start_pos,
+    q.end_pos,
+    q.quote_text,
+    bo.title AS book_title
+FROM reading_progress rp
+JOIN books bo ON rp.book_id = bo.id
+JOIN bookmarks b ON rp.id = b.progress_id
+LEFT JOIN quotes q ON b.id = q.bookmark_id
+WHERE rp.user_id = $1
+  AND bo.library_id = $2
+ORDER BY bo.title, b.page;
+
+
+
+------------------------------------------------------------
+-- 15. УДАЛИТЬ ДОСТУП ПОЛЬЗОВАТЕЛЯ К БИБЛИОТЕКЕ
+-- (например, владелец отзывает доступ)
+-- Параметры:
+--   $1 library_id
+--   $2 user_id
+------------------------------------------------------------
+DELETE FROM accesses
+WHERE library_id = $1
+  AND user_id = $2;

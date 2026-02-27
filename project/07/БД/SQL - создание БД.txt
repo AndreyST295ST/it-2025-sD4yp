@@ -1,0 +1,103 @@
+CREATE DATABASE coworking_db;
+\c coworking_db; 
+
+-- Таблица пользователей
+CREATE TABLE "User" (
+    id BIGSERIAL PRIMARY KEY, 
+    email VARCHAR(255) NOT NULL UNIQUE,
+    password_hash VARCHAR(255) NOT NULL,
+    full_name VARCHAR(255) NOT NULL,
+    phone_number VARCHAR(50)
+);
+
+-- Таблица рабочих пространств (коворкингов)
+CREATE TABLE Workspace (
+    id BIGSERIAL PRIMARY KEY,
+    name VARCHAR(255) NOT NULL,
+    location VARCHAR(500) NOT NULL,
+    capacity INTEGER NOT NULL,
+    price_per_hour DECIMAL(10,2) NOT NULL,
+    description TEXT,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+-- Таблица посетителей (дополнительная информация о пользователях)
+CREATE TABLE Visitor (
+    id BIGSERIAL PRIMARY KEY,
+    user_id BIGINT NOT NULL REFERENCES "User"(id) ON DELETE CASCADE,
+    favorite_workspaces TEXT[], 
+    UNIQUE(user_id)
+);
+
+-- Таблица администраторов
+CREATE TABLE Administrator (
+    id BIGSERIAL PRIMARY KEY,
+    user_id BIGINT NOT NULL REFERENCES "User"(id) ON DELETE CASCADE,
+    managed_locations BIGINT[] 
+);
+
+-- Таблица бронирований
+CREATE TABLE Reservation (
+    id BIGSERIAL PRIMARY KEY,
+    user_id BIGINT NOT NULL REFERENCES "User"(id),
+    workspace_id BIGINT NOT NULL REFERENCES Workspace(id),
+    reservation_date DATE NOT NULL,
+    start_time TIME NOT NULL,
+    duration_hours INTEGER NOT NULL CHECK (duration_hours > 0),
+    status VARCHAR(50) DEFAULT 'pending' CHECK (status IN ('pending', 'confirmed', 'cancelled', 'completed')),
+    total_price DECIMAL(10,2),
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    CONSTRAINT future_reservation CHECK (
+        (reservation_date > CURRENT_DATE) OR 
+        (reservation_date = CURRENT_DATE AND start_time > CURRENT_TIME)
+    )
+);
+
+-- Таблица отчетов
+CREATE TABLE Report (
+    id BIGSERIAL PRIMARY KEY,
+    generated_by BIGINT NOT NULL REFERENCES "User"(id),
+    report_type VARCHAR(100) NOT NULL,
+    period VARCHAR(50) NOT NULL,
+    data JSONB NOT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+-- Таблица QR кодов для подтверждения бронирований
+CREATE TABLE QRCode (
+    id BIGSERIAL PRIMARY KEY,
+    reservation_id BIGINT NOT NULL REFERENCES Reservation(id) ON DELETE CASCADE,
+    code_data TEXT NOT NULL,
+    generated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    expires_at TIMESTAMP NOT NULL,
+    is_used BOOLEAN DEFAULT FALSE,
+    UNIQUE(reservation_id)
+);
+
+-- Индексы для оптимизации запросов
+CREATE INDEX idx_reservation_user_id ON Reservation(user_id);
+CREATE INDEX idx_reservation_workspace_id ON Reservation(workspace_id);
+CREATE INDEX idx_reservation_date ON Reservation(reservation_date);
+CREATE INDEX idx_reservation_status ON Reservation(status);
+CREATE INDEX idx_workspace_location ON Workspace(location);
+CREATE INDEX idx_user_email ON "User"(email);
+
+-- Триггер для автоматического обновления updated_at
+CREATE OR REPLACE FUNCTION update_updated_at_column()
+RETURNS TRIGGER AS $$
+BEGIN
+    NEW.updated_at = CURRENT_TIMESTAMP;
+    RETURN NEW;
+END;
+$$ language 'plpgsql';
+
+CREATE TRIGGER update_user_updated_at BEFORE UPDATE ON "User"
+    FOR EACH ROW EXECUTE FUNCTION update_updated_at_column();
+
+CREATE TRIGGER update_workspace_updated_at BEFORE UPDATE ON Workspace
+    FOR EACH ROW EXECUTE FUNCTION update_updated_at_column();
+
+CREATE TRIGGER update_reservation_updated_at BEFORE UPDATE ON Reservation
+    FOR EACH ROW EXECUTE FUNCTION update_updated_at_column();

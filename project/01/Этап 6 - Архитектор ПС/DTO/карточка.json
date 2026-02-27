@@ -1,0 +1,39 @@
+// CardCreateRequest
+{
+  "boardId": "b_10",
+  "columnId": "c_1",
+  "title": "Сверстать экран доски"
+}
+
+// CardResponse (кратко)
+{
+  "id": "t_77",
+  "boardId": "b_10",
+  "columnId": "c_1",
+  "title": "Сверстать экран доски",
+  "position": 5
+}
+
+// CardDetailsResponse (детально)
+{
+  "id": "t_77",
+  "title": "Сверстать экран доски",
+  "description": "…",
+  "tags": ["frontend", "ui"],
+  "assignees": [{ "id": "u_456", "username": "petr" }],
+  "attachments": [{ "id": "a_1", "name": "spec.pdf", "size": 120034 }],
+  "comments": [{
+    "id": "m_1",
+    "author": { "id": "u_123", "username": "ivan" },
+    "text": "Сделай до пятницы @petr",
+    "createdAt": "2025-12-20T10:00:00Z"
+  }]
+}
+
+// CardMoveRequest
+{
+  "cardId": "t_77",
+  "fromColumnId": "c_1",
+  "toColumnId": "c_2",
+  "toPosition": 0
+}

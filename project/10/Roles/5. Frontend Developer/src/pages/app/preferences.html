@@ -1,0 +1,405 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Preferences - PlayNext</title>
+    <link rel="stylesheet" href="../../styles/style.css">
+</head>
+<body>
+    <div class="app-container">
+        <header class="app-header">
+            <h1>PlayNext</h1>
+            <nav class="app-nav">
+                <a href="explore.html" class="nav-link">Explore</a>
+                <a href="preferences.html" class="nav-link active">Preferences</a>
+                <a href="profile.html" class="nav-link">Profile</a>
+            </nav>
+        </header>
+        
+        <main class="preferences-content">
+            <div class="preferences-section">
+                <h2>Favorite Genres</h2>
+                <div class="genres-grid">
+                    <div class="genre-column">
+                        <div class="genre-checkbox">
+                            <input type="checkbox" id="action" name="genre" value="action">
+                            <label for="action">Action</label>
+                        </div>
+                        
+                        <div class="genre-checkbox">
+                            <input type="checkbox" id="adventure" name="genre" value="adventure">
+                            <label for="adventure">Adventure</label>
+                        </div>
+                        
+                        <div class="genre-checkbox">
+                            <input type="checkbox" id="rpg" name="genre" value="rpg">
+                            <label for="rpg">RPG</label>
+                        </div>
+                        
+                        <div class="genre-checkbox">
+                            <input type="checkbox" id="strategy" name="genre" value="strategy">
+                            <label for="strategy">Strategy</label>
+                        </div>
+                        
+                        <div class="genre-checkbox">
+                            <input type="checkbox" id="simulation" name="genre" value="simulation">
+                            <label for="simulation">Simulation</label>
+                        </div>
+                    </div>
+                    
+                    <div class="genre-column">
+                        <div class="genre-checkbox">
+                            <input type="checkbox" id="sports" name="genre" value="sports">
+                            <label for="sports">Sports</label>
+                        </div>
+                        
+                        <div class="genre-checkbox">
+                            <input type="checkbox" id="racing" name="genre" value="racing">
+                            <label for="racing">Racing</label>
+                        </div>
+                        
+                        <div class="genre-checkbox">
+                            <input type="checkbox" id="puzzle" name="genre" value="puzzle">
+                            <label for="puzzle">Puzzle</label>
+                        </div>
+                        
+                        <div class="genre-checkbox">
+                            <input type="checkbox" id="platformer" name="genre" value="platformer">
+                            <label for="platformer">Platformer</label>
+                        </div>
+                        
+                        <div class="genre-checkbox">
+                            <input type="checkbox" id="shooter" name="genre" value="shooter">
+                            <label for="shooter">Shooter</label>
+                        </div>
+                    </div>
+                    
+                    <div class="genre-column">
+                        <div class="genre-checkbox">
+                            <input type="checkbox" id="fighting" name="genre" value="fighting">
+                            <label for="fighting">Fighting</label>
+                        </div>
+                        
+                        <div class="genre-checkbox">
+                            <input type="checkbox" id="horror" name="genre" value="horror">
+                            <label for="horror">Horror</label>
+                        </div>
+                        
+                        <div class="genre-checkbox">
+                            <input type="checkbox" id="open-world" name="genre" value="open-world">
+                            <label for="open-world">Open World</label>
+                        </div>
+                        
+                        <div class="genre-checkbox">
+                            <input type="checkbox" id="survival" name="genre" value="survival">
+                            <label for="survival">Survival</label>
+                        </div>
+                        
+                        <div class="genre-checkbox">
+                            <input type="checkbox" id="stealth" name="genre" value="stealth">
+                            <label for="stealth">Stealth</label>
+                        </div>
+                    </div>
+                    
+                    <div class="genre-column">
+                        <div class="genre-checkbox">
+                            <input type="checkbox" id="music" name="genre" value="music">
+                            <label for="music">Music</label>
+                        </div>
+                        
+                        <div class="genre-checkbox">
+                            <input type="checkbox" id="educational" name="genre" value="educational">
+                            <label for="educational">Educational</label>
+                        </div>
+                        
+                        <div class="genre-checkbox">
+                            <input type="checkbox" id="visual-novel" name="genre" value="visual-novel">
+                            <label for="visual-novel">Visual Novel</label>
+                        </div>
+                        
+                        <div class="genre-checkbox">
+                            <input type="checkbox" id="arcade" name="genre" value="arcade">
+                            <label for="arcade">Arcade</label>
+                        </div>
+                        
+                        <div class="genre-checkbox">
+                            <input type="checkbox" id="co-op" name="genre" value="co-op">
+                            <label for="co-op">Co-op</label>
+                        </div>
+                    </div>
+                    
+                    <div class="genre-column">
+                        <div class="genre-checkbox">
+                            <input type="checkbox" id="card-game" name="genre" value="card-game">
+                            <label for="card-game">Card Game</label>
+                        </div>
+                        
+                        <div class="genre-checkbox">
+                            <input type="checkbox" id="tactical" name="genre" value="tactical">
+                            <label for="tactical">Tactical</label>
+                        </div>
+                        
+                        <div class="genre-checkbox">
+                            <input type="checkbox" id="roguelike" name="genre" value="roguelike">
+                            <label for="roguelike">Roguelike</label>
+                        </div>
+                        
+                        <div class="genre-checkbox">
+                            <input type="checkbox" id="multiplayer" name="genre" value="multiplayer">
+                            <label for="multiplayer">Multiplayer</label>
+                        </div>
+                        
+                        <div class="genre-checkbox">
+                            <input type="checkbox" id="idle" name="genre" value="idle">
+                            <label for="idle">Idle</label>
+                        </div>
+                    </div>
+                    
+                    <div class="genre-column">
+                        <div class="genre-checkbox">
+                            <input type="checkbox" id="narrative" name="genre" value="narrative">
+                            <label for="narrative">Narrative</label>
+                        </div>
+                        
+                        <div class="genre-checkbox">
+                            <input type="checkbox" id="moba" name="genre" value="moba">
+                            <label for="moba">MOBA</label>
+                        </div>
+                        
+                        <div class="genre-checkbox">
+                            <input type="checkbox" id="exploration" name="genre" value="exploration">
+                            <label for="exploration">Exploration</label>
+                        </div>
+                        
+                        <div class="genre-checkbox">
+                            <input type="checkbox" id="top-down" name="genre" value="top-down">
+                            <label for="top-down">Top-down</label>
+                        </div>
+                        
+                        <div class="genre-checkbox">
+                            <input type="checkbox" id="pixel-art" name="genre" value="pixel-art">
+                            <label for="pixel-art">Pixel Art</label>
+                        </div>
+                    </div>
+                    
+                    <div class="genre-column">
+                        <div class="genre-checkbox">
+                            <input type="checkbox" id="metroidvania" name="genre" value="metroidvania">
+                            <label for="metroidvania">Metroidvania</label>
+                        </div>
+                        
+                        <div class="genre-checkbox">
+                            <input type="checkbox" id="immersive-sim" name="genre" value="immersive-sim">
+                            <label for="immersive-sim">Immersive Sim</label>
+                        </div>
+                        
+                        <div class="genre-checkbox">
+                            <input type="checkbox" id="life-sim" name="genre" value="life-sim">
+                            <label for="life-sim">Life Sim</label>
+                        </div>
+                        
+                        <div class="genre-checkbox">
+                            <input type="checkbox" id="roguelite" name="genre" value="roguelite">
+                            <label for="roguelite">Roguelite</label>
+                        </div>
+                        
+                        <div class="genre-checkbox">
+                            <input type="checkbox" id="tower-defence" name="genre" value="tower-defence">
+                            <label for="tower-defence">Tower Defence</label>
+                        </div>
+                    </div>
+                    
+                    <div class="genre-column">
+                        <div class="genre-checkbox">
+                            <input type="checkbox" id="battle-royale" name="genre" value="battle-royale">
+                            <label for="battle-royale">Battle Royale</label>
+                        </div>
+                        
+                        <div class="genre-checkbox">
+                            <input type="checkbox" id="sandbox" name="genre" value="sandbox">
+                            <label for="sandbox">Sandbox</label>
+                        </div>
+                        
+                        <div class="genre-checkbox">
+                            <input type="checkbox" id="city-builder" name="genre" value="city-builder">
+                            <label for="city-builder">City Builder</label>
+                        </div>
+                        
+                        <div class="genre-checkbox">
+                            <input type="checkbox" id="management" name="genre" value="management">
+                            <label for="management">Management</label>
+                        </div>
+                        
+                        <div class="genre-checkbox">
+                            <input type="checkbox" id="turn-based" name="genre" value="turn-based">
+                            <label for="turn-based">Turn-based</label>
+                        </div>
+                    </div>
+                    
+                    <div class="genre-column">
+                        <div class="genre-checkbox">
+                            <input type="checkbox" id="real-time" name="genre" value="real-time">
+                            <label for="real-time">Real-time</label>
+                        </div>
+                        
+                        <div class="genre-checkbox">
+                            <input type="checkbox" id="4x" name="genre" value="4x">
+                            <label for="4x">4X</label>
+                        </div>
+                        
+                        <div class="genre-checkbox">
+                            <input type="checkbox" id="grand-strategy" name="genre" value="grand-strategy">
+                            <label for="grand-strategy">Grand Strategy</label>
+                        </div>
+                        
+                        <div class="genre-checkbox">
+                            <input type="checkbox" id="artillery" name="genre" value="artillery">
+                            <label for="artillery">Artillery</label>
+                        </div>
+                        
+                        <div class="genre-checkbox">
+                            <input type="checkbox" id="tactical-rpg" name="genre" value="tactical-rpg">
+                            <label for="tactical-rpg">Tactical RPG</label>
+                        </div>
+                    </div>
+                    
+                    <div class="genre-column">
+                        <div class="genre-checkbox">
+                            <input type="checkbox" id="jrpg" name="genre" value="jrpg">
+                            <label for="jrpg">JRPG</label>
+                        </div>
+                        
+                        <div class="genre-checkbox">
+                            <input type="checkbox" id="action-rpg" name="genre" value="action-rpg">
+                            <label for="action-rpg">Action RPG</label>
+                        </div>
+                        
+                        <div class="genre-checkbox">
+                            <input type="checkbox" id="mmorpg" name="genre" value="mmorpg">
+                            <label for="mmorpg">MMORPG</label>
+                        </div>
+                        
+                        <div class="genre-checkbox">
+                            <input type="checkbox" id="dungeon-crawler" name="genre" value="dungeon-crawler">
+                            <label for="dungeon-crawler">Dungeon Crawler</label>
+                        </div>
+                        
+                        <div class="genre-checkbox">
+                            <input type="checkbox" id="roguelike-rpg" name="genre" value="roguelike-rpg">
+                            <label for="roguelike-rpg">Roguelike RPG</label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="preferences-section">
+                <h2>Favorite Games</h2>
+                <div class="games-grid">
+                    <div class="game-card" onclick="window.location.href='game-detail.html'">
+                        <img src="https://via.placeholder.com/150x200" alt="Game Cover" class="game-cover">
+                        <h3 class="game-title">The Elder Scrolls V: Skyrim</h3>
+                    </div>
+                    
+                    <div class="game-card" onclick="window.location.href='game-detail.html'">
+                        <img src="https://via.placeholder.com/150x200" alt="Game Cover" class="game-cover">
+                        <h3 class="game-title">The Witcher 3: Wild Hunt</h3>
+                    </div>
+                    
+                    <div class="game-card" onclick="window.location.href='game-detail.html'">
+                        <img src="https://via.placeholder.com/150x200" alt="Game Cover" class="game-cover">
+                        <h3 class="game-title">Red Dead Redemption 2</h3>
+                    </div>
+                    
+                    <div class="game-card" onclick="window.location.href='game-detail.html'">
+                        <img src="https://via.placeholder.com/150x200" alt="Game Cover" class="game-cover">
+                        <h3 class="game-title">Cyberpunk 2077</h3>
+                    </div>
+                    
+                    <div class="game-card" onclick="window.location.href='game-detail.html'">
+                        <img src="https://via.placeholder.com/150x200" alt="Game Cover" class="game-cover">
+                        <h3 class="game-title">Grand Theft Auto V</h3>
+                    </div>
+                    
+                    <div class="game-card" onclick="window.location.href='game-detail.html'">
+                        <img src="https://via.placeholder.com/150x200" alt="Game Cover" class="game-cover">
+                        <h3 class="game-title">Assassin's Creed Valhalla</h3>
+                    </div>
+                    
+                    <div class="game-card" onclick="window.location.href='game-detail.html'">
+                        <img src="https://via.placeholder.com/150x200" alt="Game Cover" class="game-cover">
+                        <h3 class="game-title">Call of Duty: Warzone</h3>
+                    </div>
+                    
+                    <div class="game-card" onclick="window.location.href='game-detail.html'">
+                        <img src="https://via.placeholder.com/150x200" alt="Game Cover" class="game-cover">
+                        <h3 class="game-title">Fortnite</h3>
+                    </div>
+                    
+                    <div class="game-card" onclick="window.location.href='game-detail.html'">
+                        <img src="https://via.placeholder.com/150x200" alt="Game Cover" class="game-cover">
+                        <h3 class="game-title">Minecraft</h3>
+                    </div>
+                    
+                    <div class="game-card" onclick="window.location.href='game-detail.html'">
+                        <img src="https://via.placeholder.com/150x200" alt="Game Cover" class="game-cover">
+                        <h3 class="game-title">Among Us</h3>
+                    </div>
+                    
+                    <div class="game-card" onclick="window.location.href='game-detail.html'">
+                        <img src="https://via.placeholder.com/150x200" alt="Game Cover" class="game-cover">
+                        <h3 class="game-title">Valorant</h3>
+                    </div>
+                    
+                    <div class="game-card" onclick="window.location.href='game-detail.html'">
+                        <img src="https://via.placeholder.com/150x200" alt="Game Cover" class="game-cover">
+                        <h3 class="game-title">League of Legends</h3>
+                    </div>
+                    
+                    <div class="game-card" onclick="window.location.href='game-detail.html'">
+                        <img src="https://via.placeholder.com/150x200" alt="Game Cover" class="game-cover">
+                        <h3 class="game-title">Overwatch 2</h3>
+                    </div>
+                    
+                    <div class="game-card" onclick="window.location.href='game-detail.html'">
+                        <img src="https://via.placeholder.com/150x200" alt="Game Cover" class="game-cover">
+                        <h3 class="game-title">Apex Legends</h3>
+                    </div>
+                    
+                    <div class="game-card" onclick="window.location.href='game-detail.html'">
+                        <img src="https://via.placeholder.com/150x200" alt="Game Cover" class="game-cover">
+                        <h3 class="game-title">Counter-Strike 2</h3>
+                    </div>
+                    
+                    <div class="game-card" onclick="window.location.href='game-detail.html'">
+                        <img src="https://via.placeholder.com/150x200" alt="Game Cover" class="game-cover">
+                        <h3 class="game-title">Elden Ring</h3>
+                    </div>
+                    
+                    <div class="game-card" onclick="window.location.href='game-detail.html'">
+                        <img src="https://via.placeholder.com/150x200" alt="Game Cover" class="game-cover">
+                        <h3 class="game-title">God of War Ragnarök</h3>
+                    </div>
+                    
+                    <div class="game-card" onclick="window.location.href='game-detail.html'">
+                        <img src="https://via.placeholder.com/150x200" alt="Game Cover" class="game-cover">
+                        <h3 class="game-title">Hogwarts Legacy</h3>
+                    </div>
+                    
+                    <div class="game-card" onclick="window.location.href='game-detail.html'">
+                        <img src="https://via.placeholder.com/150x200" alt="Game Cover" class="game-cover">
+                        <h3 class="game-title">Starfield</h3>
+                    </div>
+                    
+                    <div class="game-card" onclick="window.location.href='game-detail.html'">
+                        <img src="https://via.placeholder.com/150x200" alt="Game Cover" class="game-cover">
+                        <h3 class="game-title">Baldur's Gate 3</h3>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+    
+    <script type="module" src="../../scripts/app.js"></script>
+</body>
+</html>

@@ -1,0 +1,117 @@
+.game-detail-content {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: $spacing-lg;
+}
+
+.game-header {
+  display: flex;
+  gap: $spacing-lg;
+  margin-bottom: $spacing-xl;
+  
+  .game-cover-large {
+    width: 300px;
+    height: 400px;
+    object-fit: cover;
+    border-radius: 8px;
+    @include card-shadow;
+  }
+  
+  .game-info {
+    flex: 1;
+    
+    .game-title {
+      margin-bottom: $spacing-md;
+      color: $primary-color;
+    }
+    
+    .game-description {
+      line-height: 1.8;
+      color: $secondary-color;
+    }
+  }
+}
+
+.user-rating {
+  margin-bottom: $spacing-xl;
+  padding: $spacing-lg;
+  background: white;
+  border-radius: 8px;
+  @include card-shadow;
+  
+  h3 {
+    margin-bottom: $spacing-md;
+  }
+  
+  .star-rating {
+    display: flex;
+    gap: $spacing-sm;
+    margin-bottom: $spacing-lg;
+    
+    .star {
+      font-size: 2rem;
+      color: $secondary-color;
+      cursor: pointer;
+      transition: color 0.2s;
+      
+      &:hover,
+      &.filled {
+        color: $warning-color;
+      }
+    }
+  }
+  
+  #review-text {
+    width: 100%;
+    min-height: 100px;
+    margin-bottom: $spacing-md;
+    padding: $spacing-md;
+    border: 1px solid $border-color;
+    border-radius: 4px;
+    font-family: $font-family;
+    resize: vertical;
+    
+    &:focus {
+      outline: none;
+      border-color: $primary-color;
+      box-shadow: 0 0 0 2px rgba($primary-color, 0.25);
+    }
+  }
+}
+
+.user-reviews {
+  h3 {
+    margin-bottom: $spacing-md;
+  }
+  
+  .reviews-list {
+    .review-item {
+      padding: $spacing-md;
+      margin-bottom: $spacing-md;
+      background: white;
+      border-radius: 8px;
+      @include card-shadow;
+      
+      .review-rating {
+        margin-bottom: $spacing-sm;
+        
+        .star {
+          color: $secondary-color;
+          
+          &.filled {
+            color: $warning-color;
+          }
+        }
+      }
+      
+      .reviewer-name {
+        font-weight: bold;
+        margin-bottom: $spacing-sm;
+      }
+      
+      .review-text {
+        color: $secondary-color;
+      }
+    }
+  }
+}

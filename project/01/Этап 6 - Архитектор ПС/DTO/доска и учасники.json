@@ -1,0 +1,25 @@
+// BoardCreateRequest
+{
+  "title": "Мой проект",
+  "template": "STATUS_BASED" // или "CUSTOM"
+}
+
+// BoardResponse
+{
+  "id": "b_10",
+  "title": "Мой проект",
+  "template": "STATUS_BASED",
+  "createdBy": { "id": "u_123", "username": "ivan" }
+}
+
+// InviteRequest
+{
+  "identifier": "user2@example.com",  // email или username
+  "role": "VIEWER"                   // OWNER/ADMIN/EDITOR/VIEWER
+}
+
+// BoardMemberResponse
+{
+  "user": { "id": "u_456", "username": "petr" },
+  "role": "EDITOR"
+}

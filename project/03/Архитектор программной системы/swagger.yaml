@@ -1,0 +1,186 @@
+openapi: 3.0.3
+info:
+  title: Home Library API
+  description: REST API системы «Домашняя библиотека»
+  version: 1.0.0
+
+servers:
+  - url: https://localhost
+
+tags:
+  - name: Auth
+  - name: Libraries
+  - name: Books
+  - name: Invitations
+  - name: Bookmarks
+  - name: Quotes
+
+security:
+  - bearerAuth: []
+
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+
+  schemas:
+
+    LibraryCreateRequest:
+      type: object
+      required: [name]
+      properties:
+        name:
+          type: string
+        description:
+          type: string
+        is_public:
+          type: boolean
+
+    LibraryResponse:
+      type: object
+      properties:
+        id:
+          type: integer
+        name:
+          type: string
+        description:
+          type: string
+        is_public:
+          type: boolean
+
+    BookCreateRequest:
+      type: object
+      required: [title, author]
+      properties:
+        title:
+          type: string
+        author:
+          type: string
+        genre:
+          type: string
+
+    BookResponse:
+      type: object
+      properties:
+        id:
+          type: integer
+        title:
+          type: string
+        author:
+          type: string
+        genre:
+          type: string
+
+    InvitationCreateRequest:
+      type: object
+      required: [receiver_id, library_id]
+      properties:
+        receiver_id:
+          type: integer
+        library_id:
+          type: integer
+        role_requested:
+          type: string
+
+    BookmarkCreateRequest:
+      type: object
+      required: [page]
+      properties:
+        page:
+          type: integer
+        note:
+          type: string
+
+    QuoteCreateRequest:
+      type: object
+      required: [start_pos, end_pos, quote_text]
+      properties:
+        start_pos:
+          type: integer
+        end_pos:
+          type: integer
+        quote_text:
+          type: string
+
+paths:
+
+  /auth/login:
+    post:
+      tags: [Auth]
+      summary: Аутентификация пользователя
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [email, password]
+              properties:
+                email:
+                  type: string
+                password:
+                  type: string
+      responses:
+        '200':
+          description: Успешная аутентификация
+          content:
+            application/json:
+              schema:
+                type: object
+
+  /libraries:
+    post:
+      tags: [Libraries]
+      summary: Создать библиотеку
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/LibraryCreateRequest'
+      responses:
+        '201':
+          description: Библиотека создана
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/LibraryResponse'
+
+    get:
+      tags: [Libraries]
+      summary: Получить библиотеки пользователя
+      responses:
+        '200':
+          description: Список библиотек
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/LibraryResponse'
+
+  /libraries/{libraryId}/books:
+    post:
+      tags: [Books]
+      summary: Добавить книгу в библиотеку
+      parameters:
+        - name: libraryId
+          in: path
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/BookCreateRequest'
+      responses:
+        '201':
+          description: Книга добавлена
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BookResponse'

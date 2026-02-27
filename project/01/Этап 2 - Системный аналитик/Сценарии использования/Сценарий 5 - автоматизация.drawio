@@ -1,0 +1,107 @@
+<mxfile host="app.diagrams.net">
+  <diagram name="Сценарий 6 — Создание автоматизации">
+    <mxGraphModel dx="1200" dy="1000" grid="1" gridSize="10">
+      <root>
+        <mxCell id="0"/>
+        <mxCell id="1" parent="0"/>
+
+        <!-- Start -->
+        <mxCell id="start" value="Начало"
+          style="ellipse;whiteSpace=wrap;html=1;"
+          vertex="1" parent="1">
+          <mxGeometry x="460" y="20" width="120" height="60" as="geometry"/>
+        </mxCell>
+
+        <!-- Open automation -->
+        <mxCell id="openAutomation" value="Создатель / Администратор открывает раздел «Автоматизация»"
+          style="rounded=1;whiteSpace=wrap;html=1;"
+          vertex="1" parent="1">
+          <mxGeometry x="360" y="120" width="320" height="80" as="geometry"/>
+        </mxCell>
+
+        <!-- Show rules -->
+        <mxCell id="showRules" value="Система отображает список правил автоматизации"
+          style="rounded=1;whiteSpace=wrap;html=1;"
+          vertex="1" parent="1">
+          <mxGeometry x="360" y="220" width="320" height="80" as="geometry"/>
+        </mxCell>
+
+        <!-- Create rule -->
+        <mxCell id="createRule" value="Пользователь создаёт новое правило"
+          style="rounded=1;whiteSpace=wrap;html=1;"
+          vertex="1" parent="1">
+          <mxGeometry x="360" y="320" width="320" height="80" as="geometry"/>
+        </mxCell>
+
+        <!-- Condition -->
+        <mxCell id="setCondition" value="Пользователь настраивает условие срабатывания"
+          style="rounded=1;whiteSpace=wrap;html=1;"
+          vertex="1" parent="1">
+          <mxGeometry x="360" y="420" width="320" height="80" as="geometry"/>
+        </mxCell>
+
+        <!-- Action -->
+        <mxCell id="setAction" value="Пользователь настраивает действие"
+          style="rounded=1;whiteSpace=wrap;html=1;"
+          vertex="1" parent="1">
+          <mxGeometry x="360" y="520" width="320" height="80" as="geometry"/>
+        </mxCell>
+
+        <!-- Save rule -->
+        <mxCell id="saveRule" value="Пользователь сохраняет правило"
+          style="rounded=1;whiteSpace=wrap;html=1;"
+          vertex="1" parent="1">
+          <mxGeometry x="360" y="620" width="320" height="80" as="geometry"/>
+        </mxCell>
+
+        <!-- Activate -->
+        <mxCell id="activateRule" value="Система активирует правило и выполняет его при наступлении условия"
+          style="rounded=1;whiteSpace=wrap;html=1;"
+          vertex="1" parent="1">
+          <mxGeometry x="360" y="720" width="320" height="100" as="geometry"/>
+        </mxCell>
+
+        <!-- End -->
+        <mxCell id="end" value="Конец"
+          style="ellipse;whiteSpace=wrap;html=1;"
+          vertex="1" parent="1">
+          <mxGeometry x="460" y="860" width="120" height="60" as="geometry"/>
+        </mxCell>
+
+        <!-- Edges -->
+        <mxCell edge="1" parent="1" source="start" target="openAutomation" style="endArrow=block;">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+
+        <mxCell edge="1" parent="1" source="openAutomation" target="showRules" style="endArrow=block;">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+
+        <mxCell edge="1" parent="1" source="showRules" target="createRule" style="endArrow=block;">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+
+        <mxCell edge="1" parent="1" source="createRule" target="setCondition" style="endArrow=block;">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+
+        <mxCell edge="1" parent="1" source="setCondition" target="setAction" style="endArrow=block;">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+
+        <mxCell edge="1" parent="1" source="setAction" target="saveRule" style="endArrow=block;">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+
+        <mxCell edge="1" parent="1" source="saveRule" target="activateRule" style="endArrow=block;">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+
+        <mxCell edge="1" parent="1" source="activateRule" target="end" style="endArrow=block;">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

@@ -1,0 +1,106 @@
+-- create_db.sql
+-- Запускается в psql-подключении к postgres-серверу
+-- Создаёт БД и все таблицы, типы и ограничения.
+
+-- 1) Создать базу
+CREATE DATABASE home_library
+    WITH ENCODING='UTF8'
+         LC_COLLATE='en_US.utf8'
+         LC_CTYPE='en_US.utf8'
+         TEMPLATE=template0;
+
+\connect home_library
+
+-- 2) Типы (enum) для ролей доступа и статуса приглашения
+CREATE TYPE access_role AS ENUM ('owner','editor','viewer');
+CREATE TYPE invite_status AS ENUM ('pending','accepted','declined','revoked');
+
+-- 3) Таблицы
+
+-- Пользователь
+CREATE TABLE users (
+    id SERIAL PRIMARY KEY,
+    full_name VARCHAR(255) NOT NULL,
+    email VARCHAR(255) UNIQUE,
+    created_at TIMESTAMP WITH TIME ZONE DEFAULT now()
+);
+
+-- Библиотека
+CREATE TABLE libraries (
+    id SERIAL PRIMARY KEY,
+    owner_id INTEGER NOT NULL REFERENCES users(id) ON DELETE CASCADE,
+    name VARCHAR(255) NOT NULL,
+    description TEXT,
+    is_public BOOLEAN DEFAULT FALSE, -- если библиотека публичная
+    created_at TIMESTAMP WITH TIME ZONE DEFAULT now()
+);
+
+-- Доступ (к какой библиотеке и с какой ролью)
+CREATE TABLE accesses (
+    id SERIAL PRIMARY KEY,
+    library_id INTEGER NOT NULL REFERENCES libraries(id) ON DELETE CASCADE,
+    user_id INTEGER NOT NULL REFERENCES users(id) ON DELETE CASCADE,
+    role access_role NOT NULL DEFAULT 'viewer',
+    granted_at TIMESTAMP WITH TIME ZONE DEFAULT now(),
+    UNIQUE(library_id, user_id)
+);
+
+-- Книга
+CREATE TABLE books (
+    id SERIAL PRIMARY KEY,
+    library_id INTEGER NOT NULL REFERENCES libraries(id) ON DELETE CASCADE,
+    title VARCHAR(500) NOT NULL,
+    author VARCHAR(255),
+    genre VARCHAR(100),
+    isbn VARCHAR(30),
+    published_year INTEGER,
+    added_by INTEGER REFERENCES users(id),
+    added_at TIMESTAMP WITH TIME ZONE DEFAULT now()
+);
+
+-- Прогресс чтения
+CREATE TABLE reading_progress (
+    id SERIAL PRIMARY KEY,
+    book_id INTEGER NOT NULL REFERENCES books(id) ON DELETE CASCADE,
+    user_id INTEGER NOT NULL REFERENCES users(id) ON DELETE CASCADE,
+    page INTEGER DEFAULT 0 CHECK (page >= 0),
+    last_read_at TIMESTAMP WITH TIME ZONE DEFAULT now(),
+    UNIQUE(book_id, user_id) -- для одного пользователя — один текущий прогресс на книгу
+);
+
+-- Закладка
+CREATE TABLE bookmarks (
+    id SERIAL PRIMARY KEY,
+    progress_id INTEGER NOT NULL REFERENCES reading_progress(id) ON DELETE CASCADE,
+    page INTEGER NOT NULL CHECK (page >= 0),
+    note TEXT,
+    created_at TIMESTAMP WITH TIME ZONE DEFAULT now()
+);
+
+-- Цитата
+CREATE TABLE quotes (
+    id SERIAL PRIMARY KEY,
+    bookmark_id INTEGER NOT NULL REFERENCES bookmarks(id) ON DELETE CASCADE,
+    start_pos INTEGER NOT NULL CHECK (start_pos >= 0),
+    end_pos INTEGER NOT NULL CHECK (end_pos >= start_pos),
+    quote_text TEXT, -- опционально хранить текст цитаты
+    created_at TIMESTAMP WITH TIME ZONE DEFAULT now()
+);
+
+-- Приглашение
+CREATE TABLE invitations (
+    id SERIAL PRIMARY KEY,
+    sender_id INTEGER NOT NULL REFERENCES users(id) ON DELETE CASCADE,
+    receiver_id INTEGER NOT NULL REFERENCES users(id) ON DELETE CASCADE,
+    library_id INTEGER NOT NULL REFERENCES libraries(id) ON DELETE CASCADE,
+    role_requested access_role NOT NULL DEFAULT 'viewer',
+    status invite_status NOT NULL DEFAULT 'pending',
+    sent_at TIMESTAMP WITH TIME ZONE DEFAULT now(),
+    responded_at TIMESTAMP WITH TIME ZONE
+);
+
+-- Индексы для ускорения поисковых запросов
+CREATE INDEX idx_books_author ON books(author);
+CREATE INDEX idx_books_genre ON books(genre);
+CREATE INDEX idx_lib_owner ON libraries(owner_id);
+CREATE INDEX idx_access_user ON accesses(user_id);

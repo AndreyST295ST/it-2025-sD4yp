@@ -1,0 +1,54 @@
+.auth-container {
+  max-width: 400px;
+  margin: 0 auto;
+  padding: $spacing-xl;
+  background: white;
+  border-radius: 8px;
+  @include card-shadow;
+  margin-top: $spacing-xl;
+}
+
+.auth-header {
+  text-align: center;
+  margin-bottom: $spacing-lg;
+  
+  h1 {
+    color: $primary-color;
+    margin-bottom: $spacing-sm;
+  }
+  
+  p {
+    color: $secondary-color;
+  }
+}
+
+.auth-form {
+  margin-bottom: $spacing-lg;
+}
+
+.auth-footer {
+  text-align: center;
+  color: $secondary-color;
+  
+  a {
+    color: $primary-color;
+    text-decoration: none;
+    
+    &:hover {
+      text-decoration: underline;
+    }
+  }
+  
+  p {
+    margin: $spacing-sm 0;
+  }
+}
+
+.confirmation-message {
+  text-align: center;
+  margin: $spacing-lg 0;
+  padding: $spacing-lg;
+  background-color: lighten($success-color, 50%);
+  border-radius: 4px;
+  color: darken($success-color, 20%);
+}

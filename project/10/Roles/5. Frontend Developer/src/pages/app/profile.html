@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Profile - PlayNext</title>
+    <link rel="stylesheet" href="../../styles/style.css">
+</head>
+<body>
+    <div class="app-container">
+        <header class="app-header">
+            <h1>PlayNext</h1>
+            <nav class="app-nav">
+                <a href="explore.html" class="nav-link">Explore</a>
+                <a href="preferences.html" class="nav-link">Preferences</a>
+                <a href="profile.html" class="nav-link active">Profile</a>
+            </nav>
+        </header>
+        
+        <main class="profile-content">
+            <div class="profile-header">
+                <img src="https://via.placeholder.com/150x150" alt="Profile Picture" class="profile-picture">
+                <div class="profile-info">
+                    <h2 class="username">PlayerName</h2>
+                    <p class="email">player@example.com</p>
+                    <p class="registration-date">Registered: January 1, 2023</p>
+                </div>
+            </div>
+            
+            <div class="profile-stats">
+                <h3>My stats</h3>
+                <ul class="stats-list">
+                    <li>Rated games: <span class="stat-value">27</span></li>
+                    <li>Reviews written: <span class="stat-value">8</span></li>
+                    <li>Favorite genres: <span class="stat-value">12</span></li>
+                    <li>Favorite games: <span class="stat-value">14</span></li>
+                </ul>
+            </div>
+            
+            <div class="account-settings">
+                <h3>Account settings</h3>
+                <div class="settings-buttons">
+                    <button class="btn btn-secondary" data-modal="change-password-modal">Change Password</button>
+                    <button class="btn btn-warning" data-modal="delete-account-modal">Delete Account</button>
+                    <button class="btn btn-primary" id="sign-out">Sign Out</button>
+                </div>
+            </div>
+            
+            <!-- Change Password Modal -->
+            <div class="modal" id="change-password-modal">
+                <div class="modal-content">
+                    <h3>Change Password</h3>
+                    <form class="modal-form">
+                        <div class="form-group">
+                            <label for="old-password">Old password</label>
+                            <input type="password" id="old-password" required>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="new-password">New password</label>
+                            <input type="password" id="new-password" required>
+                        </div>
+                        
+                        <div class="modal-buttons">
+                            <button type="button" class="btn btn-secondary modal-close">Cancel</button>
+                            <button type="submit" class="btn btn-primary">Save</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            
+            <!-- Delete Account Modal -->
+            <div class="modal" id="delete-account-modal">
+                <div class="modal-content">
+                    <h3>Warning</h3>
+                    <p>Are you sure?</p>
+                    <div class="modal-buttons">
+                        <button type="button" class="btn btn-secondary modal-close">No</button>
+                        <button type="button" class="btn btn-warning" id="confirm-delete">Yes</button>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+    
+    <script type="module" src="../../scripts/profile.js"></script>
+</body>
+</html>
