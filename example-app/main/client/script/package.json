@@ -1,0 +1,10 @@
+{
+  "scripts": {
+    "start": "npx rollup -c rollup.config.mjs",
+    "build": "echo BUILD"
+  },
+  "dependencies": {
+    "clsx": "^2.1.1",
+    "redom": "^4.3.0"
+  }
+}
